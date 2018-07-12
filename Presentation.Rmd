@@ -1,0 +1,62 @@
+---
+title: "Intro to EMA"
+author: "Mathew Ling"
+date: "12 July 2018"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Objectives
+
+- Review the motivating questions
+- Introduce you to the structure of EMA data
+- Discuss the preparation of the data
+- Give an overview of the Analyses
+
+## EMA questions
+
+- Describing state-like variables
+- Relationships among state-like variables
+- Relationships between state and trait-like variables
+
+## Cross-sectional Data
+
+![The "wide" data structure](img/WideData.svg)
+
+## Longitudinal / Repeated Measures Data
+
+<div align="center">
+<img src="img/LongData.svg" width=960 height=720>
+</div>
+
+## EMA data
+
+- Necessarily contains longitudinal data
+- Regularly contains cross-sectional data (baseline measures)
+- Both are important to research questions
+
+-----
+<div align="center">
+<img src="img/EMA.svg" width=960 height=720>
+</div>
+
+## Reading, Cleaning, and Recoding 
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Combining your datasets
+
+```{r pressure}
+plot(pressure)
+```
+
+## Multi-Level Modelling (MLM)
+
+A framework to model relationships between variables where the data are clustered (non-independent)
+
+## Conducting a MLM

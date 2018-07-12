@@ -1,0 +1,128 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 137.55 77.55">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #914694;
+      }
+
+      .cls-2 {
+        fill: #ca9e67;
+      }
+
+      .cls-3 {
+        fill: #be1622;
+      }
+
+      .cls-4 {
+        fill: #f39200;
+      }
+
+      .cls-5 {
+        fill: #706f6f;
+      }
+
+      .cls-6 {
+        fill: #009fe3;
+      }
+
+      .cls-7 {
+        fill: #2fac66;
+      }
+
+      .cls-8 {
+        font-size: 5.57px;
+      }
+
+      .cls-15, .cls-8 {
+        fill: #1d1d1b;
+        font-family: MyriadPro-Regular, Myriad Pro;
+      }
+
+      .cls-14, .cls-9 {
+        fill: none;
+        stroke: #1d1d1b;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-9 {
+        stroke-width: 0.75px;
+      }
+
+      .cls-10 {
+        letter-spacing: 0em;
+      }
+
+      .cls-11 {
+        letter-spacing: 0em;
+      }
+
+      .cls-12 {
+        letter-spacing: -0.03em;
+      }
+
+      .cls-13 {
+        letter-spacing: 0em;
+      }
+
+      .cls-15 {
+        font-size: 4.05px;
+      }
+
+      .cls-16 {
+        letter-spacing: -0.03em;
+      }
+
+      .cls-17 {
+        letter-spacing: 0.02em;
+      }
+
+      .cls-18 {
+        letter-spacing: 0em;
+      }
+
+      .cls-19 {
+        letter-spacing: 0em;
+      }
+
+      .cls-20 {
+        letter-spacing: 0.02em;
+      }
+    </style>
+  </defs>
+  <title>LongData</title>
+  <rect class="cls-1" x="47.29" y="42.46" width="89.64" height="8.82"/>
+  <rect class="cls-2" x="47.29" y="52.11" width="89.64" height="9.65"/>
+  <rect class="cls-3" x="47.29" y="61.76" width="89.64" height="9.39"/>
+  <rect class="cls-4" x="47.29" y="71.86" width="89.64" height="4.68"/>
+  <rect class="cls-5" x="47.05" y="12.13" width="89.64" height="4.68"/>
+  <rect class="cls-6" x="47.05" y="17.13" width="89.64" height="14.4"/>
+  <rect class="cls-7" x="47.05" y="31.79" width="89.64" height="10.11"/>
+  <text class="cls-8" transform="translate(27.39 15.79) scale(0.97 1)">Header</text>
+  <path class="cls-9" d="M22.7,88.92s-2,1.15-2.11-4c-.09-6.7.72-10.37.53-15.11a32.44,32.44,0,0,0-2.18-10.24,32.88,32.88,0,0,0,2.18-10.29c.19-4.74-.61-8.42-.53-15.11.07-5.17,2.11-4,2.11-4" transform="translate(-4.19 -11.85)"/>
+  <text class="cls-8" transform="translate(0 48.66) scale(0.97 1)">D<tspan class="cls-10" x="3.71" y="0">a</tspan><tspan class="cls-11" x="6.37" y="0">ta</tspan></text>
+  <path class="cls-9" d="M51.39,22S49.66,20,57.55,20c10.23,0,15.84.87,23.08.74a72,72,0,0,0,15.67-2A73,73,0,0,0,112,21c7.24.26,12.86-.49,23.09-.31,7.89.14,6.12,2.17,6.12,2.17" transform="translate(-4.19 -11.85)"/>
+  <text class="cls-8" transform="translate(82 4.66) scale(0.97 1)"><tspan class="cls-12">V</tspan><tspan x="2.92" y="0">a</tspan><tspan class="cls-13" x="5.61" y="0">r</tspan><tspan class="cls-11" x="7.45" y="0">iables</tspan></text>
+  <g>
+    <rect class="cls-14" x="47.05" y="12.13" width="89.64" height="64.52"/>
+    <line class="cls-14" x1="47.05" y1="71.69" x2="136.69" y2="71.69"/>
+    <line class="cls-14" x1="47.05" y1="66.73" x2="136.69" y2="66.73"/>
+    <line class="cls-14" x1="47.05" y1="61.76" x2="136.69" y2="61.76"/>
+    <line class="cls-14" x1="47.05" y1="56.8" x2="136.69" y2="56.8"/>
+    <line class="cls-14" x1="47.05" y1="51.84" x2="136.69" y2="51.84"/>
+    <line class="cls-14" x1="47.05" y1="46.87" x2="136.69" y2="46.87"/>
+    <line class="cls-14" x1="47.05" y1="41.91" x2="136.69" y2="41.91"/>
+    <line class="cls-14" x1="47.05" y1="36.95" x2="136.69" y2="36.95"/>
+    <line class="cls-14" x1="47.05" y1="31.98" x2="136.69" y2="31.98"/>
+    <line class="cls-14" x1="47.05" y1="27.02" x2="136.69" y2="27.02"/>
+    <line class="cls-14" x1="47.05" y1="22.06" x2="136.69" y2="22.06"/>
+    <line class="cls-14" x1="47.05" y1="17.09" x2="136.69" y2="17.09"/>
+    <line class="cls-14" x1="121.75" y1="12.13" x2="121.75" y2="76.65"/>
+    <line class="cls-14" x1="106.81" y1="12.13" x2="106.81" y2="76.65"/>
+    <line class="cls-14" x1="91.87" y1="12.13" x2="91.87" y2="76.65"/>
+    <line class="cls-14" x1="76.93" y1="12.13" x2="76.93" y2="76.65"/>
+    <line class="cls-14" x1="61.99" y1="12.13" x2="61.99" y2="76.65"/>
+  </g>
+  <path class="cls-9" d="M49.69,43.46s-2,.27-2.11-1c-.09-1.59.72-2.46.53-3.58-.23-1.35-2.18-2.43-2.18-2.43s2-1.1,2.18-2.44c.19-1.12-.61-2-.53-3.58.07-1.23,2.11-1,2.11-1" transform="translate(-4.19 -11.85)"/>
+  <text class="cls-15" transform="translate(21.39 25.29)"><tspan class="cls-16">P</tspan><tspan x="2.05" y="0">a</tspan><tspan class="cls-17" x="4" y="0">r</tspan><tspan class="cls-18" x="5.42" y="0">ticipa</tspan><tspan class="cls-19" x="14.72" y="0">n</tspan><tspan x="16.95" y="0">t</tspan></text>
+  <text class="cls-15" transform="translate(23.02 41.17)">Obse<tspan class="cls-20" x="8.72" y="0">r</tspan><tspan class="cls-19" x="10.14" y="0">va</tspan><tspan x="14.01" y="0">tion</tspan></text>
+</svg>
