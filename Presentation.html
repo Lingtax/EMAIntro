@@ -69,9 +69,18 @@ Mathew Ling
 <div id="ema-questions" class="slide section level2">
 <h2>EMA questions</h2>
 <ul>
-<li>Describing state-like variables</li>
-<li>Relationships among state-like variables</li>
-<li>Relationships between state and trait-like variables</li>
+<li>Describing state-like variables
+<ul>
+<li>How does mood fluctuate?</li>
+</ul></li>
+<li>Relationships among state-like variables
+<ul>
+<li>Does state affect predict alcohol consumption?</li>
+</ul></li>
+<li>Relationships between state and trait-like variables
+<ul>
+<li>Does gender predict state affect?</li>
+</ul></li>
 </ul>
 </div>
 <div id="cross-sectional-data" class="slide section level2">
@@ -103,25 +112,148 @@ Mathew Ling
 </div>
 <div id="reading-cleaning-and-recoding" class="slide section level2">
 <h2>Reading, Cleaning, and Recoding</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(cars)</code></pre></div>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(janitor)
+df1 &lt;-<span class="st">  </span><span class="kw">read_csv</span>(<span class="st">&quot;baseline.csv&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="kw">toupper</span>(id), <span class="co"># consistently case IDs</span>
+         <span class="dt">item1r =</span> <span class="dv">11</span> <span class="op">-</span><span class="st"> </span>item1, <span class="co"># reverse scoring</span>
+         <span class="dt">scale1 =</span> (item1r <span class="op">+</span><span class="st"> </span>item2 <span class="op">+</span><span class="st"> </span>item3 <span class="op">+</span><span class="st"> </span>item4) <span class="op">/</span><span class="st"> </span><span class="dv">4</span>) <span class="co"># creating a summary scale</span>
+          
+gmean &lt;-<span class="st"> </span>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(id) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">scale1mean =</span> <span class="kw">mean</span>(scale1))
+df1 &lt;-<span class="st">  </span>df1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">scale1c =</span> scale1 <span class="op">-</span><span class="st"> </span>gmean<span class="op">$</span>scale1mean)
+<span class="kw">head</span>(df1)</code></pre></div>
+<pre><code>## # A tibble: 6 x 8
+##   id       item1 item2 item3 item4 item1r scale1 scale1c
+##   &lt;chr&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+## 1 L5GICPUA     4     7     6     6      7   6.5     1   
+## 2 NAG7JLEG     6     5     5     5      5   5      -0.25
+## 3 RKHXG4TR     7     4     4     5      4   4.25   -1   
+## 4 H6L5VUIL     5     6     5     6      6   5.75   -0.25
+## 5 BRONICFZ     5     5     5     5      6   5.25    0.25
+## 6 BQYBBEHB     5     6     5     5      6   5.5     0.25</code></pre>
 </div>
 <div id="combining-your-datasets" class="slide section level2">
 <h2>Combining your datasets</h2>
-<p><img src="data:image/png;base64,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" width="768" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">full &lt;-<span class="st">  </span><span class="kw">inner_join</span>(df2, df1, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)
+<span class="kw">head</span>(full)</code></pre></div>
+<pre><code>## # A tibble: 6 x 10
+##   id          xi      y item1 item2 item3 item4 item1r scale1 scale1c
+##   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+## 1 L5GICPUA 2.49  -46.3      4     7     6     6      7   6.5     1   
+## 2 NAG7JLEG 7.33   -8.67     6     5     5     5      5   5      -0.25
+## 3 RKHXG4TR 0.246 -48.4      7     4     4     5      4   4.25   -1   
+## 4 H6L5VUIL 3.71  -31.9      5     6     5     6      6   5.75   -0.25
+## 5 BRONICFZ 2.10  -32.8      5     5     5     5      6   5.25    0.25
+## 6 BQYBBEHB 0.429 -54.8      5     6     5     5      6   5.5     0.25</code></pre>
 </div>
 <div id="multi-level-modelling-mlm" class="slide section level2">
 <h2>Multi-Level Modelling (MLM)</h2>
-<p>A framework to model relationships between variables where the data are clustered (non-independent)</p>
+<p>A framework to model relationships between variables where the data are clustered (non-independent).</p>
+<p>In terms you might be more familiar with:</p>
+<ul>
+<li>A type of analysis that can include people from within groups</li>
+<li>A type of analysis that can include multiple measures within people</li>
+</ul>
+<p>This will be covered in week 7 of RMD</p>
+</div>
+<div id="mlms-conceptually" class="slide section level2">
+<h2>MLMs Conceptually</h2>
+<p>Regression, but acounting for similarities in the cluster (either person or group).</p>
+<p>Allows examination of and control for differences between the clusters.</p>
+<p>Principally manifest as:</p>
+<ul>
+<li>Random intercepts (effect of IVs constant between groups, but different baseline of the outcome variable)</li>
+<li>Random effects (effect of IV varies between groups)</li>
+</ul>
+</div>
+<div id="where-is-the-variance" class="slide section level2">
+<h2>Where is the variance?</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(psychometric)
+
+<span class="kw">ICC2.lme</span>(y, id, <span class="dt">data =</span> full) <span class="co"># Share of variance within subjects in dependent y</span></code></pre></div>
+<pre><code>## [1] 0.8797674</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ICC2.lme</span>(scale1, id, <span class="dt">data =</span> full)  <span class="co"># Share of variance within subjects in within subj IV </span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
 </div>
 <div id="conducting-a-mlm" class="slide section level2">
 <h2>Conducting a MLM</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lme4)
+<span class="kw">library</span>(lmerTest)
+
+model1 &lt;-<span class="st">  </span><span class="kw">lmer</span>(y <span class="op">~</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>id), <span class="dt">data =</span> full)
+<span class="kw">summary</span>(model1)</code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: y ~ (1 | id)
+##    Data: full
+## 
+## REML criterion at convergence: 7496.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.9896 -0.6694 -0.0126  0.6833  2.6741 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept)  55.37    7.441  
+##  Residual             227.02   15.067  
+## Number of obs: 900, groups:  id, 30
+## 
+## Fixed effects:
+##             Estimate Std. Error      df t value Pr(&gt;|t|)    
+## (Intercept)  -28.909      1.448  29.000  -19.96   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div id="conducting-a-mlm-1" class="slide section level2">
+<h2>Conducting a MLM</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model2 &lt;-<span class="st">  </span><span class="kw">lmer</span>(y <span class="op">~</span><span class="st"> </span>xi <span class="op">+</span><span class="st"> </span>scale1c <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>id), <span class="dt">data =</span> full)
+<span class="kw">anova</span>(model1, model2)</code></pre></div>
+<pre><code>## Data: full
+## Models:
+## model1: y ~ (1 | id)
+## model2: y ~ xi + scale1c + (1 | id)
+##        Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(&gt;Chisq)    
+## model1  3 7505.2 7519.6 -3749.6   7499.2                             
+## model2  5 5084.1 5108.1 -2537.0   5074.1 2425.1      2  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div id="conducting-a-mlm-2" class="slide section level2">
+<h2>Conducting a MLM</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(model2)</code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: y ~ xi + scale1c + (1 | id)
+##    Data: full
+## 
+## REML criterion at convergence: 5074.2
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.96760 -0.71611 -0.02153  0.70305  2.78125 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 31.85    5.644   
+##  Residual             14.34    3.787   
+## Number of obs: 900, groups:  id, 30
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept) -56.77747    1.06672  31.20699 -53.226  &lt; 2e-16 ***
+## xi            6.81991    0.06001 869.99833 113.640  &lt; 2e-16 ***
+## scale1c      -4.49307    0.97517  28.00001  -4.607 8.11e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##         (Intr) xi    
+## xi      -0.230       
+## scale1c  0.000 -0.001</code></pre>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

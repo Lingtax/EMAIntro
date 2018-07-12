@@ -19,9 +19,12 @@ knitr::opts_chunk$set(echo = FALSE)
 ## EMA questions
 
 - Describing state-like variables
+    - How does mood fluctuate?
 - Relationships among state-like variables
+    - Does state affect predict alcohol consumption? 
 - Relationships between state and trait-like variables
-
+    - Does gender predict state affect?
+  
 ## Cross-sectional Data
 
 ![The "wide" data structure](img/WideData.svg)
@@ -43,20 +46,87 @@ knitr::opts_chunk$set(echo = FALSE)
 <img src="img/EMA.svg" width=960 height=720>
 </div>
 
+
 ## Reading, Cleaning, and Recoding 
 
-```{r cars, echo = TRUE}
-summary(cars)
+```{r reading, echo = TRUE, warning = FALSE, message = FALSE}
+library(readr)
+library(dplyr)
+library(janitor)
+df1 <-  read_csv("baseline.csv") %>% 
+  clean_names() %>% 
+  mutate(id = toupper(id), # consistently case IDs
+         item1r = 11 - item1, # reverse scoring
+         scale1 = (item1r + item2 + item3 + item4) / 4) # creating a summary scale
+          
+gmean <- df1 %>% group_by(id) %>% 
+  summarise(scale1mean = mean(scale1))
+df1 <-  df1 %>% mutate(scale1c = scale1 - gmean$scale1mean)
+head(df1)
+```
+```{r include=FALSE}
+df2 <-  read_csv("esm.csv") %>% mutate(id=toupper(id))
 ```
 
 ## Combining your datasets
 
-```{r pressure}
-plot(pressure)
+```{r combining, echo = TRUE}
+full <-  inner_join(df2, df1, by = "id")
+head(full)
 ```
 
 ## Multi-Level Modelling (MLM)
 
-A framework to model relationships between variables where the data are clustered (non-independent)
+A framework to model relationships between variables where the data are clustered (non-independent).
+
+In terms you might be more familiar with:
+
+- A type of analysis that can include people from within groups
+- A type of analysis that can include multiple measures within people
+
+This will be covered in week 7 of RMD
+
+## MLMs Conceptually
+
+Regression, but acounting for similarities in the cluster (either person or group).
+
+Allows examination of and control for differences between the clusters. 
+
+Principally manifest as: 
+
+- Random intercepts (effect of IVs constant between groups, but different baseline of the outcome variable)
+- Random effects (effect of IV varies between groups)
+
+## Where is the variance?
+
+```{r icc, echo = TRUE, message=FALSE, warning = FALSE}
+library(psychometric)
+
+ICC2.lme(y, id, data = full) # Share of variance within subjects in dependent y
+ICC2.lme(scale1, id, data = full)  # Share of variance within subjects in within subj IV 
+```
+
 
 ## Conducting a MLM
+
+```{r mlm, echo = TRUE, message=FALSE, warning = FALSE}
+library(lme4)
+library(lmerTest)
+
+model1 <-  lmer(y ~ (1|id), data = full)
+summary(model1)
+```
+ 
+## Conducting a MLM
+
+```{r mlm2, echo = TRUE, message=FALSE, warning = FALSE}
+model2 <-  lmer(y ~ xi + scale1c + (1|id), data = full)
+anova(model1, model2)
+```
+ 
+## Conducting a MLM
+```{r mlm3, echo = TRUE, message=FALSE, warning = FALSE }
+summary(model2)
+```
+
+ 
