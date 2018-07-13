@@ -8,9 +8,20 @@ library(tidyverse)
 # add helper function
 capper <- function(x) {ifelse(x>10, 10, x)}
 
+sim_times <- function(days, dailyobs) {
+  seq(ISOdatetime(2018, 5, days,  9, 0, 0), by= "100 min", length.out = dailyobs) + 
+    abs(rnorm(dailyobs, 400))
+}
+obs_times <- function(days, daily_obs) {
+  purrr::map2(days, daily_obs, sim_times) %>% do.call(c, .)
+}
+  
+
+
 # set dataframe scale
 nclust <- 30 # number of clusters / individuals
-nobs <- 30 #number of observations per cluster 
+nobs <- 30  # number of observations per cluster 
+daily_obs <- 6
 
 # set random seed
 # seed <- 1 # replace with value to replicate sample
@@ -29,10 +40,13 @@ parameters <-  tibble(id = stringi::stri_rand_strings(nclust, 8),
 out <- parameters[rep(seq_len(nrow(parameters)), nobs), ]
 
 # adds within cluster parameters
-out <-  out %>% mutate(
-  xi = rnorm(nrow(out), 4, 2.1),
-  error = rnorm(nrow(out), mean = 0, sd = 3.8), # generates error
-  y = (a * x) + (b * xi) + c + error # produces outcome according to function y= ax + bxi + c + error
+out <-  out %>% 
+  group_by(id) %>% 
+  mutate(
+    surv_time = obs_times(2:6, daily_obs),
+    xi = rnorm(nobs, 4, 2.1),
+    error = rnorm(nobs, mean = 0, sd = 3.8), # generates error
+    y = (a * x) + (b * xi) + c + error # produces outcome according to function y= ax + bxi + c + error
   )
 
 # outputs two dataframes to reflect native output structure from instant survey and qualtrics (or equiv)
@@ -46,7 +60,7 @@ between <- select(parameters, id, x) %>%
          ) %>% 
   select(-x)
 
-within <- out %>%  select(id, xi, y)
+within <- out %>%  select(id, surv_time, xi, y)
 
 write_csv(between, paste("baseline.csv", sep=""))
 write_csv(within, paste("esm.csv", sep=""))
