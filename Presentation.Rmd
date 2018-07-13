@@ -105,13 +105,70 @@ Principally manifest as:
 - Random intercepts (effect of IVs constant between groups, but different baseline of the outcome variable)
 - Random effects (effect of IV varies between groups)
 
+## MLMs Conceptually
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+df <-  tribble(
+  ~grp, ~x, ~y,
+     1,   0,   0,  
+     1,   10, 10,
+     2,   0,  2, 
+     2,   10,  12,
+     3,   0,  0,  
+     3,   10,  12 
+)
+
+plot1 <- df %>% 
+  filter(grp == 1) %>% 
+  ggplot(aes(x, y)) + 
+  theme_classic() +
+  ggtitle("Linear Regression Model") + 
+  geom_line() +
+  scale_x_continuous(expand = c(0, 0)) + 
+  scale_y_continuous(expand = c(0, 0))
+plot1
+```
+
+## MLMs Conceptually
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+plot2 <- df %>% 
+  filter(grp == 1 | grp == 2) %>% 
+  ggplot(aes(x, y, colour = as.factor(grp))) + 
+  theme_classic() +
+  theme(legend.position = "none") +
+  ggtitle("Random Intercept Model") + 
+  geom_line() +
+  scale_x_continuous(expand = c(0, 0)) + 
+  scale_y_continuous(expand = c(0, 0))
+plot2
+
+```
+
+## MLMs Conceptually
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+plot3 <- df %>% 
+  filter(grp == 1 | grp == 3) %>% 
+  ggplot(aes(x, y, colour = as.factor(grp))) + 
+  theme_classic() +
+  theme(legend.position = "none") +
+  ggtitle("Random Slope Model") + 
+  geom_line() +
+  scale_x_continuous(expand = c(0, 0)) + 
+  scale_y_continuous(expand = c(0, 0))
+plot3
+```
+
 ## Where is the variance?
 
 ```{r icc, echo = TRUE, message=FALSE, warning = FALSE}
 library(psychometric)
 
-ICC2.lme(y, id, data = full) # Share of variance within subjects in dependent y
-ICC2.lme(scale1, id, data = full)  # Share of variance within subjects in within subj IV 
+# Share of variance between subjects in dependent y
+ICC2.lme(y, id, data = full) 
+
 ```
 
 
@@ -119,16 +176,24 @@ ICC2.lme(scale1, id, data = full)  # Share of variance within subjects in within
 
 ```{r mlm, echo = TRUE, message=FALSE, warning = FALSE}
 library(lme4)
+library(broom)
 #library(lmerTest)
 
 model1 <-  lmer(y ~ (1|id), data = full)
-summary(model1)
+glance(model1)
 ```
+ 
+## Conducting a MLM
+```{r mlm1, echo = TRUE, message=FALSE, warning = FALSE}
+tidy(model1)
+```
+ 
  
 ## Conducting a MLM
 
 ```{r mlm2, echo = TRUE, message=FALSE, warning = FALSE}
 model2 <-  lmer(y ~ xic + scale1 + (1|id), data = full)
+glance(model2)
 anova(model1, model2)
 ```
  
