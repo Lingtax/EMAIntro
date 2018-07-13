@@ -2,7 +2,7 @@
 title: "Intro to EMA"
 author: "Mathew Ling"
 date: "12 July 2018"
-output: slidy_presentation
+output: ioslides_presentation
 ---
 
 ```{r setup, include=FALSE}
@@ -47,25 +47,33 @@ knitr::opts_chunk$set(echo = FALSE)
 </div>
 
 
-## Reading, Cleaning, and Recoding 
+## Reading, Cleaning, and Recoding - Baseline 
 
-```{r reading, echo = TRUE, warning = FALSE, message = FALSE}
+```{r baseline, echo = TRUE, warning = FALSE, message = FALSE}
 library(readr)
 library(dplyr)
 library(janitor)
 df1 <-  read_csv("baseline.csv") %>% 
   clean_names() %>% 
-  mutate(id = toupper(id), # consistently case IDs
+  mutate(id = toupper(id),    # consistently case IDs
          item1r = 11 - item1, # reverse scoring
          scale1 = (item1r + item2 + item3 + item4) / 4) # creating a summary scale
           
-gmean <- df1 %>% group_by(id) %>% 
-  summarise(scale1mean = mean(scale1))
-df1 <-  df1 %>% mutate(scale1c = scale1 - gmean$scale1mean)
 head(df1)
 ```
-```{r include=FALSE}
-df2 <-  read_csv("esm.csv") %>% mutate(id=toupper(id))
+
+## Reading, Cleaning, and Recoding - Longitudinal
+
+```{r longitudinal, echo = TRUE, warning = FALSE, message = FALSE}
+df2 <-  read_csv("esm.csv") %>% 
+  mutate(id=toupper(id)) %>%  # consistently case IDs
+  group_by(id) %>%            # groups by ID (also possible to group by day here)
+  arrange(id, surv_time) %>%  # sort by ID and time of survey 
+  mutate(ximean = mean(xi),   # obtain the group mean of IV xi (groupmean because of grouping above)
+         xic = xi - ximean,   # group mean centre scores on xi
+         xiclag = lag(xic))   # lag centred xi by 1 observation
+
+head(df2)
 ```
 
 ## Combining your datasets
@@ -111,7 +119,7 @@ ICC2.lme(scale1, id, data = full)  # Share of variance within subjects in within
 
 ```{r mlm, echo = TRUE, message=FALSE, warning = FALSE}
 library(lme4)
-library(lmerTest)
+#library(lmerTest)
 
 model1 <-  lmer(y ~ (1|id), data = full)
 summary(model1)
@@ -120,7 +128,7 @@ summary(model1)
 ## Conducting a MLM
 
 ```{r mlm2, echo = TRUE, message=FALSE, warning = FALSE}
-model2 <-  lmer(y ~ xi + scale1c + (1|id), data = full)
+model2 <-  lmer(y ~ xic + scale1 + (1|id), data = full)
 anova(model1, model2)
 ```
  
