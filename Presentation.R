@@ -98,3 +98,6 @@ anova(model1, model2)
 ## ----mlm3, echo = TRUE, message=FALSE, warning = FALSE-------------------
 summary(model2)
 
+model3 <-  lmer(y ~ xic + scale1 + (xic + 1|id), data = full)
+summary(model3)
+anova(model2, model3)
