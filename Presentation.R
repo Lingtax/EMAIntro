@@ -1,4 +1,14 @@
-## ----baseline, echo = TRUE, warning = FALSE, message = FALSE-------------
+# # Install packages 
+# install.packages("readr")
+# install.packages("dplyr")
+# install.packages("janitor")
+# install.packages("psychometric")
+# install.packages("ggplot2")
+# install.packages("lme4")
+# install.packages("broom")
+# install.packages("lmerTest")
+
+# Analysis start
 library(readr)
 library(dplyr)
 library(janitor)
